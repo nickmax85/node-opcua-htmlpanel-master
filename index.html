@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="scripts/jquery-3.5.1.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/socket.io.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+    <title>OPC UA Test</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1 id="station">Station</h1>
+      </div>
+      <div class="row">
+        <label id="value">Label</label>
+      </div>
+      <div class="row">
+        <label id="nodeinfo">Label</label>
+      </div>
+    </div>
+
+    <script>
+      let server = "10.176.199.65";
+
+      $(document).ready(function () {
+        console.log("ready");
+      });
+
+      // const socket = io.connect("http://localhost:3700");
+      const socket = io.connect(server + ":3700");
+
+      socket.on("message", function (data) {
+        console.log(data);
+        $("#station").text(data.browseName);
+        $("#value").text(data.value);
+        $("#nodeinfo").text(
+          "nodeId= " + data.nodeId + " timestamp= " + data.timestamp
+        );
+      });
+    </script>
+  </body>
+</html>
